@@ -2,7 +2,12 @@
 
 import type { DemoPayload, PlanPayload } from "@/lib/api";
 
-export default function CollectionPanel({ demo, activePlan }: { demo: DemoPayload | null; activePlan: PlanPayload | null }) {
+type Props = {
+  demo: DemoPayload | null;
+  activePlan: PlanPayload | null;
+};
+
+export default function CollectionPanel({ demo, activePlan }: Props) {
   return (
     <section className="rounded-lg border border-border bg-card p-4">
       <h3 className="text-xl">Saved Prep Batch Pantry Shelf</h3>
@@ -13,7 +18,11 @@ export default function CollectionPanel({ demo, activePlan }: { demo: DemoPayloa
               <span>{run.name}</span>
               <span className="text-xs text-muted-foreground">{run.timestamp}</span>
             </div>
-            {run.low_confidence ? <p className="mt-1 text-xs text-warning">Assumption-aware draft</p> : <p className="mt-1 text-xs text-success">Ready to reuse</p>}
+            {run.low_confidence ? (
+              <p className="mt-1 text-xs text-warning">Assumption-aware draft</p>
+            ) : (
+              <p className="mt-1 text-xs text-success">Ready to reuse</p>
+            )}
           </div>
         ))}
       </div>
@@ -21,7 +30,9 @@ export default function CollectionPanel({ demo, activePlan }: { demo: DemoPayloa
         <div className="mt-3 rounded-md border border-warning/40 bg-muted p-2">
           <p className="text-xs uppercase text-warning">Assumption callouts</p>
           <ul className="mt-1 list-disc pl-4 text-xs text-muted-foreground">
-            {activePlan.assumptions.map((a) => <li key={a}>{a}</li>)}
+            {activePlan.assumptions.map((a, idx) => (
+              <li key={`${a}-${idx}`}>{a}</li>
+            ))}
           </ul>
         </div>
       ) : null}
